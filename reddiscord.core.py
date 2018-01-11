@@ -10,6 +10,8 @@ import dbmanagement
 auth.init()
 settings.init()
 
+import tools
+
 client = settings.client
 db = settings.db
 startup_extensions = settings.startup_extensions
@@ -60,7 +62,7 @@ async def on_message(message):
             await client.add_reaction(message, "❤")
         await client.process_commands(message)
 
-@client.event
+#@client.event
 async def on_command_error(error, ctx):
     print(type(error))
     ### The main part of the error handling use the work from https://gist.github.com/MysterialPy/7822af90858ef65012ea500bcecf1612
@@ -88,32 +90,35 @@ async def on_command_error(error, ctx):
     else:
         print(error)
 
+
 @client.command(name='reload', hidden=True, pass_context=True)
+@commands.check(tools.is_owner)
 async def _reload(ctx, *, module : str):
     """Reloads a module."""
-    appinfo = await client.application_info()
-    owner = appinfo.owner
-    if ctx.message.author.id == owner.id:
-        try:
-            client.unload_extension(module)
-            client.load_extension(module)
-        except Exception as e:
+    try:
+        client.unload_extension(module)
+        client.load_extension(module)
+    except Exception as e:
+        if isinstance(e, ImportError):
             await client.say("I can't do that. Does this module exist ?")
-            print('{}: {}'.format(type(e).__name__, e))
         else:
-            await client.say('Module reloaded')
+            await client.say("I can't do that. It seems there's an error in this module and I can't load it.\nIt is probably in an unloaded state now.")
+        print('{}: {}'.format(type(e).__name__, e))
     else:
-        await client.say("Sorry " + ctx.message.author.mention + ", you don't have the permission for this")
+        await client.say('Module reloaded')
 
 
-@client.command(pass_context=True)
-async def request(ctx, *, request):
-    """request a feature for tux's bot"""
-    #140622099055247360 tux
-    #190158930847072256 flo
-    target = await client.get_user_info('140622099055247360')
-    print("sending request to "+target.name)
-    await client.send_message(target, 'New feature request from ' + ctx.message.author.name + '(#' + str(ctx.message.author.discriminator) + ') : \n' + request)
+@client.command(name='unload', hidden=True, pass_context=True)
+@commands.check(tools.is_owner)
+async def _unload(ctx, *, module : str):
+    """Unloads a module."""
+    try:
+        client.unload_extension(module)
+    except Exception as e:
+        await client.say("I can't do that. Does this module exist ? Was it loaded ?")
+        print('{}: {}'.format(type(e).__name__, e))
+    else:
+        await client.say('Module unloaded')
 
 
 @client.group(pass_context=True)
@@ -121,6 +126,7 @@ async def remindme(ctx):
         """A set of command to create reminders"""
         if ctx.invoked_subcommand is None:
             await client.say(f"```A set of commands to create reminders : \n{client.command_prefix}remindme now *task* \n\tto be reminder now to do *task* \n{client.command_prefix}remindme in *time* *task* \n\tto be reminded to do *task* in *time* minutes```")
+
 
 @remindme.command(pass_context=True, name='now')
 async def remindmenow(ctx, *, what):
@@ -131,6 +137,7 @@ async def remindmenow(ctx, *, what):
 async def remindmenow_handler(error, ctx):
     """A local Error Handler for remindme."""
     await client.say("```You need to say what you want to be reminded```")
+
 
 @remindme.command(pass_context=True, name='in')
 async def remindmein(ctx, time, *, what):
@@ -148,18 +155,22 @@ async def remindmein_handler(error, ctx):
     """A local Error Handler for remindmein."""
     await client.say("```You need to say in how long I have to remind you, and what```")
 
+
 @client.command(hidden=True)
 async def lemons():
     await client.say(":lemon:")
+
 
 @client.command(hidden=True)
 async def points():
     await client.say("!points")
 
+
 @client.command(pass_context=True)
 async def kawaiidesu(ctx):
     """React to kawaii things"""
     await client.send_file(ctx.message.channel, './img/kawaii.jpg')
+
 
 if __name__ == "__main__":
     for extension in startup_extensions:

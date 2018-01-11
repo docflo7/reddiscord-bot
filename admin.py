@@ -1,6 +1,6 @@
 import settings
 from discord.ext import commands
-from tools import tools
+import tools
 
 class admin():
     def __init__(self, client):
