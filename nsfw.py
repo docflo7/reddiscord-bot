@@ -1,8 +1,8 @@
-import settings
-import asyncio
-import discord
 from discord.ext import commands
 import tools
+import dbmanagement
+import settings
+
 
 class nsfw():
     def __init__(self, client):
@@ -23,8 +23,8 @@ class nsfw():
     @commands.command()
     async def flat(self):
         """Flat is justice !"""
-        res = tools.fetchV2( 'chiisaihentai')
-        await self.client.say(res.url)
+        res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
+        await self.client.say(res)
 
     @commands.command()
     async def legwear(self):

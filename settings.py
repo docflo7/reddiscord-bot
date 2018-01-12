@@ -21,8 +21,11 @@ def init():
     startup_extensions = ["nsfw", "sfw", "admin"]
     # image extensions to filter
     img_extensions = [".jpg", ".png", ".jpeg", ".bpm", ".gif"]
+    # this specifies what subreddits need to be cached
+    # some subreddits can't be browsed by the praw random function and need this
+    cached_subreddits = ["awwnime", "chiisaihentai"]
     # get the db connection
-    db = dbmanagement.connectDB(client)
+    db = dbmanagement.connectDB(client, reddit, cached_subreddits)
     # seed the PRNG
     random.seed()
 

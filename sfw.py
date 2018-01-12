@@ -1,5 +1,8 @@
 from discord.ext import commands
 import tools
+import dbmanagement
+import settings
+
 
 class sfw():
     def __init__(self, client):
@@ -32,8 +35,8 @@ class sfw():
     @commands.command(aliases=["kawaii"])
     async def aww(self):
         """Cute anime girls !"""
-        res = tools.fetchV2('awwnime')
-        await self.client.say(res.url)
+        res = await dbmanagement.getRandomPostFromDB(settings.db, 'awwnime')
+        await self.client.say(res)
 
 def setup(client):
     client.add_cog(sfw(client))

@@ -1,19 +1,19 @@
 import asyncio
 import discord
 import platform
+from discord.ext import commands
 import settings
 import auth
-from discord.ext import commands
 import dbmanagement
+import tools
 
 #read values from the settings and auth file
 auth.init()
 settings.init()
+tools.init()
 
-import tools
 
 client = settings.client
-db = settings.db
 startup_extensions = settings.startup_extensions
 wavingStatus = settings.wavingStatus
 appinfo = settings.appinfo
@@ -22,14 +22,16 @@ appinfo = settings.appinfo
 # Do not mess with it because the bot can break, if you wish to do so, please consult me or someone trusted.
 @client.event
 async def on_ready():
-    print('Logged in as '+client.user.name+' (ID:'+client.user.id+') | Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
+    print('--------')
+    print('Logged in as '+client.user.name+' (ID:'+client.user.id+')')
+    print('Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
     print('--------')
     print('Current Discord.py Version: {} | Current Python Version: {}'.format(discord.__version__, platform.python_version()))
     print('--------')
     print('Connected to reddit as a read-only instance')
     print('--------')
     await client.change_presence(game=discord.Game(name='reddit'))
-    await dbmanagement.checkReminder(db, client)
+    await dbmanagement.checkReminder(settings.db, client)
     global appinfo
     appinfo = await client.application_info()
     settings.appinfo = appinfo
@@ -60,6 +62,7 @@ async def on_message(message):
             await client.send_message(message.channel, "Yeah, sauce-bot sucks... I'm way better")
         if "Kizuna Ai".lower() in message.content.lower():
             await client.add_reaction(message, "❤")
+            await kizuna(message)
         await client.process_commands(message)
 
 #@client.event
@@ -144,7 +147,7 @@ async def remindmein(ctx, time, *, what):
     """send yourself a reminder in *time* minutes"""
     try:
         num = int(time)
-        dbmanagement.addReminder(db, ctx.message.author.id, num, what)
+        await dbmanagement.addReminder(settings.db, ctx.message.author.id, num, what)
         await client.say("I'll send you a PM later !")
     except ValueError:
         await client.say("...")
@@ -158,12 +161,15 @@ async def remindmein_handler(error, ctx):
 
 @client.command(hidden=True)
 async def lemons():
+    await dbmanagement.fillPostsInDB(settings.db, settings.reddit, "awwnime")
     await client.say(":lemon:")
 
 
 @client.command(hidden=True)
 async def points():
-    await client.say("!points")
+    link = await dbmanagement.getRandomPostFromDB(settings.db, "awwnime")
+    await client.say(link)
+    #await client.say("!points")
 
 
 @client.command(pass_context=True)
@@ -171,6 +177,19 @@ async def kawaiidesu(ctx):
     """React to kawaii things"""
     await client.send_file(ctx.message.channel, './img/kawaii.jpg')
 
+@client.command(pass_context=True, aliases=["/s, sar"])
+async def sarcasm(ctx):
+    """React to sarcasm"""
+    await client.send_file(ctx.message.channel, './img/sarcasm.jpg')
+	
+@client.command(pass_context=True, aliases=["spoil"])
+async def spoiler(ctx):
+    """React to spoilers"""
+    await client.send_file(ctx.message.channel, './img/spoiler.png')
+	
+async def kizuna(message):
+    """React to spoilers"""
+    await client.send_file(message.channel, './img/kizuna.png') #Change the channel to our #kawaii
 
 if __name__ == "__main__":
     for extension in startup_extensions:

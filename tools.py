@@ -1,8 +1,11 @@
 import settings
 import random
 
-reddit = settings.reddit
-img_extensions = settings.img_extensions
+def init():
+    global reddit
+    global img_extensions
+    reddit = settings.reddit
+    img_extensions = settings.img_extensions
 
 
 # This is the function browsing a given subreddit
@@ -10,9 +13,8 @@ def fetch(sub):
     subr = reddit.subreddit(sub)
     while True:
         subm = subr.random()
-        ext = subm.url[-4:]
-        if ext in img_extensions:
-            print(subm.url)
+        if check_img_link(subm.url):
+            #print(subm.url)
             return subm
 
 
@@ -24,16 +26,9 @@ def fetchV2(sub):
     while True:
         random_post_number = random.randint(0, 500)
         random_post = posts[random_post_number]
-        ext = random_post.url[-4:]
-        if ext in img_extensions:
-            print(random_post.url)
+        if check_img_link(random_post.url):
+            #print(random_post.url)
             return random_post
-
-
-# A better version of the custom function to geet a random reddit post
-# This version uses a cache
-def fetchV3(self, sub):
-    return
 
 
 def is_owner(ctx):
@@ -48,3 +43,15 @@ def is_lord(ctx):
 def is_owner_or_lord(ctx):
     owner = settings.appinfo.owner
     return (ctx.message.author.id == owner.id) or (ctx.message.author.id == ctx.message.server.owner.id)
+
+
+def check_img_link(link):
+    for extension in img_extensions:
+        if link.endswith(extension):
+            return True
+    if link.startswith("https://imgur.com/"):
+        return True
+    elif link.startswith("http://imgur.com/"):
+        return True
+    else:
+        return False
