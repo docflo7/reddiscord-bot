@@ -3,6 +3,8 @@
 # To track again : 
 # git update-index --no-assume-unchanged <file>
 
+# Personal files
+auth_heroku.py
 
 # Pycharm files
 .idea/*
