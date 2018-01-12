@@ -7,7 +7,6 @@ from urllib import parse
 
 
 def init():
-    """test"""
     global discord_command_prefix
     global discord_token
     global reddit_client
