@@ -78,7 +78,7 @@ def fillPostsInDB(conn, reddit, subname):
             insert += cursor.rowcount
     conn.commit()
     if insert:
-        print("database updated for r/" + subname + ". " + insert + " new lines.")
+        print("database updated for r/" + subname + ". " + str(insert) + " new lines.")
     else:
         print("database for r/" + subname + " is already up-to-date.")
     cursor.close()
