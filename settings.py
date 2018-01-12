@@ -30,5 +30,5 @@ def init():
     random.seed()
 
     # global variables across modules
-    wavingStatus = True
+    reactionsStatus = True
     appinfo = None

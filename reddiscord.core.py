@@ -15,7 +15,6 @@ tools.init()
 
 client = settings.client
 startup_extensions = settings.startup_extensions
-wavingStatus = settings.wavingStatus
 appinfo = settings.appinfo
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
@@ -43,39 +42,38 @@ def globally_block_dms(ctx):
 @client.event
 async def on_message(message):
     if message.author.id != client.user.id:
-        print(message)
-        if message.content.lower() == "<switch o/".lower():
-            global wavingStatus
-            wavingStatus = not wavingStatus
-            res = "`o/` are backs ! :smile:" if wavingStatus else "No more `o/` :cry:"
-            await client.send_message(message.channel, res)
-            return
-        if message.content.lower() in ['hello', 'hi', 'hallo']:
-            await client.send_message(message.channel, 'Hello ' + str(message.author.name))
-        if 'o/' in message.content and wavingStatus:
-            await client.send_message(message.channel, '\o')
-        if message.content == 'o7':
-            await client.send_message(message.channel, 'Yousoro!')
-        if message.content.lower() == 'fuck you':
-            await client.send_message(message.channel, ':middle_finger:')
-        if message.content.lower() == 'this bot sucks':
-            await client.send_message(message.channel, "Yeah, sauce-bot sucks... I'm way better")
-        if "Kizuna Ai".lower() in message.content.lower():
-            await client.add_reaction(message, "❤")
-            await kizuna(message)
+        # print(message)
+        if settings.reactionsStatus:
+            if message.content.lower() in ['hello', 'hi', 'hallo']:
+                await client.send_message(message.channel, 'Hello ' + str(message.author.name))
+            if 'o/' in message.content and wavingStatus:
+                await client.send_message(message.channel, '\o')
+            if message.content == 'o7':
+                await client.send_message(message.channel, 'Yousoro!')
+            if message.content.lower() == 'fuck you':
+                await client.send_message(message.channel, ':middle_finger:')
+            if message.content.lower() == 'this bot sucks':
+                await client.send_message(message.channel, "Yeah, sauce-bot sucks... I'm way better")
+            if "Kizuna Ai".lower() in message.content.lower():
+                await client.add_reaction(message, "❤")
+                await kizuna(message)
         await client.process_commands(message)
 
-#@client.event
+@client.event
 async def on_command_error(error, ctx):
     print(type(error))
-    ### The main part of the error handling use the work from https://gist.github.com/MysterialPy/7822af90858ef65012ea500bcecf1612
+    ignored = (commands.CommandNotFound, commands.UserInputError)
+    # The main part of the error handling use the work from :
+    # https://gist.github.com/MysterialPy/7822af90858ef65012ea500bcecf1612
+
     # This prevents any commands with local handlers being handled here in on_command_error.
     if hasattr(ctx.command, 'on_error'):
         return
-    ignored = (commands.CommandNotFound, commands.UserInputError)
+
     # Allows us to check for original exceptions raised and sent to CommandInvokeError.
     # If nothing is found. We keep the exception passed to on_command_error.
     error = getattr(error, 'original', error)
+
     # Anything in ignored will return and prevent anything happening.
     if isinstance(error, ignored):
         return
@@ -161,15 +159,12 @@ async def remindmein_handler(error, ctx):
 
 @client.command(hidden=True)
 async def lemons():
-    await dbmanagement.fillPostsInDB(settings.db, settings.reddit, "awwnime")
     await client.say(":lemon:")
 
 
 @client.command(hidden=True)
 async def points():
-    link = await dbmanagement.getRandomPostFromDB(settings.db, "awwnime")
-    await client.say(link)
-    #await client.say("!points")
+    await client.say("!points")
 
 
 @client.command(pass_context=True)
@@ -177,19 +172,22 @@ async def kawaiidesu(ctx):
     """React to kawaii things"""
     await client.send_file(ctx.message.channel, './img/kawaii.jpg')
 
+
 @client.command(pass_context=True, aliases=["/s, sar"])
 async def sarcasm(ctx):
     """React to sarcasm"""
     await client.send_file(ctx.message.channel, './img/sarcasm.jpg')
-	
+
+
 @client.command(pass_context=True, aliases=["spoil"])
 async def spoiler(ctx):
     """React to spoilers"""
     await client.send_file(ctx.message.channel, './img/spoiler.png')
-	
+
+
 async def kizuna(message):
-    """React to spoilers"""
-    await client.send_file(message.channel, './img/kizuna.png') #Change the channel to our #kawaii
+    """React to kizuna name"""
+    await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
 
 if __name__ == "__main__":
     for extension in startup_extensions:
@@ -198,7 +196,7 @@ if __name__ == "__main__":
         except Exception as e:
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extension {}\n{}'.format(extension, exc))
-    client.run(auth.discord_token) #bot token
+    client.run(auth.discord_token)  # bot token
 
 # This bot is built upon the Basic Bot template created by Habchy#1665
 # Using discordpy's Discord API wrapper, and PRAW's reddit API wrapper

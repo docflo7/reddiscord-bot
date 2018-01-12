@@ -56,6 +56,10 @@ class admin():
         if arg is None:
             await self.client.say("```You need to tell me what command to switch```")
             return
+        elif arg == "reactions":
+            settings.reactionsStatus = not settings.reactionsStatus
+            status = 'enabled' if settings.reactionsStatus else 'disabled'
+            await self.client.say("Reactions are now " + status)
         com = self.client.get_command(arg)
         if com is None:
             await self.client.say("No matching command found")
