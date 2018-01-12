@@ -11,14 +11,14 @@ def init():
     global startup_extensions
     global img_extensions
     global db
-    global wavingStatus
+    global reactionsStatus
     global appinfo
 
     client = commands.Bot(description="reddit image picker bot - by docflo7", command_prefix=auth.discord_command_prefix, pm_help=False)
     reddit = praw.Reddit(client_id=auth.reddit_client, client_secret=auth.reddit_secret, user_agent='discord_bot')
 
     # this specifies what extensions to load when the bot starts up
-    startup_extensions = ["nsfw", "sfw", "admin"]
+    startup_extensions = ["NSFW", "SFW", "Admin", "Utilities"]
     # image extensions to filter
     img_extensions = [".jpg", ".png", ".jpeg", ".bpm", ".gif"]
     # this specifies what subreddits need to be cached

@@ -4,7 +4,7 @@ import dbmanagement
 import settings
 
 
-class nsfw():
+class NSFW():
     def __init__(self, client):
         self.client = client
 
@@ -74,5 +74,6 @@ class nsfw():
         res = tools.fetch( 'twintails')
         await self.client.say(res.url)
 
+
 def setup(client):
-    client.add_cog(nsfw(client))
+    client.add_cog(NSFW(client))

@@ -4,7 +4,7 @@ import dbmanagement
 import settings
 
 
-class sfw():
+class SFW():
     def __init__(self, client):
         self.client = client
 
@@ -38,5 +38,6 @@ class sfw():
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'awwnime')
         await self.client.say(res)
 
+
 def setup(client):
-    client.add_cog(sfw(client))
+    client.add_cog(SFW(client))

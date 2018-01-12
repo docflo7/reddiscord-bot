@@ -2,7 +2,7 @@ import settings
 from discord.ext import commands
 import tools
 
-class admin():
+class Admin():
     def __init__(self, client):
         self.client = client
 
@@ -49,10 +49,14 @@ class admin():
             await self.client.edit_profile(avatar=file)
             await self.client.say("Owner changed bot avatar")
 
-    @commands.command(hidden=True)
+    @commands.command()
     @commands.check(tools.is_owner_or_lord)
     async def switch(self, arg):
-        """Enable / disable a command"""
+        """Enable / disable a command
+
+        Use this to switch a command on or off.
+        You can also disable the bot's reactions to messages with :
+            switch reactions"""
         if arg is None:
             await self.client.say("```You need to tell me what command to switch```")
             return
@@ -60,6 +64,7 @@ class admin():
             settings.reactionsStatus = not settings.reactionsStatus
             status = 'enabled' if settings.reactionsStatus else 'disabled'
             await self.client.say("Reactions are now " + status)
+            return
         com = self.client.get_command(arg)
         if com is None:
             await self.client.say("No matching command found")
@@ -76,4 +81,4 @@ class admin():
 
 
 def setup(client):
-    client.add_cog(admin(client))
+    client.add_cog(Admin(client))

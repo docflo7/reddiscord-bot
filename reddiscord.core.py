@@ -35,9 +35,11 @@ async def on_ready():
     appinfo = await client.application_info()
     settings.appinfo = appinfo
 
+
 @client.check
 def globally_block_dms(ctx):
     return ctx.message.server is not None
+
 
 @client.event
 async def on_message(message):
@@ -46,7 +48,7 @@ async def on_message(message):
         if settings.reactionsStatus:
             if message.content.lower() in ['hello', 'hi', 'hallo']:
                 await client.send_message(message.channel, 'Hello ' + str(message.author.name))
-            if 'o/' in message.content and wavingStatus:
+            if 'o/' in message.content:
                 await client.send_message(message.channel, '\o')
             if message.content == 'o7':
                 await client.send_message(message.channel, 'Yousoro!')
@@ -58,6 +60,7 @@ async def on_message(message):
                 await client.add_reaction(message, "❤")
                 await kizuna(message)
         await client.process_commands(message)
+
 
 @client.event
 async def on_command_error(error, ctx):
@@ -134,6 +137,7 @@ async def remindmenow(ctx, *, what):
     """send yourself a reminder now"""
     await client.send_message(ctx.message.author, "Don't forget : " + what)
 
+
 @remindmenow.error
 async def remindmenow_handler(error, ctx):
     """A local Error Handler for remindme."""
@@ -150,6 +154,7 @@ async def remindmein(ctx, time, *, what):
     except ValueError:
         await client.say("...")
         return False
+
 
 @remindmein.error
 async def remindmein_handler(error, ctx):

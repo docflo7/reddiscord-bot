@@ -20,6 +20,8 @@ def fetch(sub):
 
 # This is another version of the function browsing a given subreddit
 # This one bypasses the invalid url error from certain subreddits
+# This method is deprecated because of how unefficient it was.
+# You should use the cached version : getRandomPostFromDB, located in dbmanagement.py
 def fetchV2(sub):
     subr = reddit.subreddit(sub)
     posts = [post for post in subr.new(limit=500)]
@@ -28,6 +30,16 @@ def fetchV2(sub):
         random_post = posts[random_post_number]
         if check_img_link(random_post.url):
             #print(random_post.url)
+            return random_post
+
+
+async def searchReddit(sub, query):
+    subr = reddit.subreddit(sub)
+    posts = [post for post in subr.search(query)]
+    while True:
+        random_post_number = random.randint(0, len(posts) - 1)
+        random_post = posts[random_post_number]
+        if check_img_link(random_post.url):
             return random_post
 
 
