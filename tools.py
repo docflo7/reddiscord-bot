@@ -29,18 +29,24 @@ def fetchV2(sub):
         random_post_number = random.randint(0, 500)
         random_post = posts[random_post_number]
         if check_img_link(random_post.url):
-            #print(random_post.url)
+            # print(random_post.url)
             return random_post
 
 
-async def searchReddit(sub, query):
+async def searchReddit(sub, query, safe):
     subr = reddit.subreddit(sub)
     posts = [post for post in subr.search(query)]
-    while True:
+    limit = 0
+    while limit <= 50:
         random_post_number = random.randint(0, len(posts) - 1)
         random_post = posts[random_post_number]
         if check_img_link(random_post.url):
-            return random_post
+            if safe and random_post.over_18:
+                pass
+            else:
+                return random_post
+        limit += 1
+    return None
 
 
 def is_owner(ctx):
