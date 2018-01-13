@@ -37,6 +37,8 @@ async def searchReddit(sub, query, safe):
     subr = reddit.subreddit(sub)
     posts = [post for post in subr.search(query)]
     limit = 0
+    if len(posts) == 0:
+        return None
     while limit <= 50:
         random_post_number = random.randint(0, len(posts) - 1)
         random_post = posts[random_post_number]
