@@ -58,7 +58,7 @@ async def checkReminder(conn, bot):
     cursor.close()
 
 
-def addReminder(conn, id, delay, text):
+async def addReminder(conn, id, delay, text):
     t = calendar.timegm(time.gmtime())
     cursor = conn.cursor()
     cursor.execute("INSERT INTO reminders(userid, timet, reminder) VALUES(%s, %s, %s)", (id, t + delay * 60, text))
