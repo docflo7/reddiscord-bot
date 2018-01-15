@@ -10,31 +10,49 @@ class SFW():
 
     @commands.command()
     async def fang(self):
-        """For girls with cute little fangs"""
+        """r/cutelittlefangs
+
+        For girls with cute little fangs"""
         res = tools.fetch('cutelittlefangs')
         await self.client.say(res.url)
 
     @commands.command()
+    async def imouto(self):
+        """r/imouto
+
+        I guess there are some siscons here"""
+        res = tools.fetch('imouto')
+        await self.client.say(res.url)
+
+    @commands.command()
     async def tsundere(self):
-        """B-Baka!"""
+        """r/Tsunderes
+
+        B-Baka!"""
         res = tools.fetch('Tsunderes')
         await self.client.say(res.url)
 
     @commands.command()
     async def ponytail(self):
-        """Some ponytailed girls"""
+        """r/animeponytails
+
+        Some ponytailed girls"""
         res = tools.fetch('animeponytails')
         await self.client.say(res.url)
 
     @commands.command()
     async def pout(self):
-        """:<"""
+        """r/pouts
+
+        :<"""
         res = tools.fetch('pouts')
         await self.client.say(res.url)
 
     @commands.command(aliases=["kawaii"])
     async def aww(self):
-        """Cute anime girls !"""
+        """r/awwnime
+
+        Cute anime girls !"""
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'awwnime')
         await self.client.say(res)
 

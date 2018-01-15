@@ -16,11 +16,13 @@ def init():
     global db_port
     global db_user
     global db_pass
+    global osu_api_token
 
     discord_command_prefix = "<"
     discord_token = os.environ["DISCORD_TOKEN"]
     reddit_client = os.environ["REDDIT_CLIENT"]
     reddit_secret = os.environ["REDDIT_SECRET"]
+    osu_api_token = os.environ["OSU_API_TOKEN"]
 
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])

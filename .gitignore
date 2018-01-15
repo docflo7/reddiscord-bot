@@ -5,6 +5,8 @@
 
 # Personal files
 auth_heroku.py
+auth_local.py
+test.py
 
 # Pycharm files
 .idea/*

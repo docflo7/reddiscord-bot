@@ -48,7 +48,7 @@ async def on_message(message):
         if settings.reactionsStatus:
             if message.content.lower() in ['hello', 'hi', 'hallo']:
                 await client.send_message(message.channel, 'Hello ' + str(message.author.name))
-            if 'o/' in message.content:
+            if message.content == 'o/':
                 await client.send_message(message.channel, '\o')
             if message.content == 'o7':
                 await client.send_message(message.channel, 'Yousoro!')
@@ -57,7 +57,11 @@ async def on_message(message):
             if message.content.lower() == 'this bot sucks':
                 await client.send_message(message.channel, "Yeah, sauce-bot sucks... I'm way better")
             if "Kizuna Ai".lower() in message.content.lower():
-                await client.add_reaction(message, "❤")
+                try:
+                    await client.add_reaction(message, "❤")
+                except:
+                    # If you bot doesn't have the "READ MESSAGE HISTORY" permission, adding reactions is impossible
+                    print("Can't add reaction. Permission denied.")
                 await kizuna(message)
         await client.process_commands(message)
 
@@ -192,7 +196,8 @@ async def spoiler(ctx):
 
 async def kizuna(message):
     """React to kizuna name"""
-    await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
+    msg = await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
+
 
 if __name__ == "__main__":
     for extension in startup_extensions:

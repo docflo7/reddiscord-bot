@@ -10,67 +10,105 @@ class NSFW():
 
     @commands.command()
     async def zr(self):
-        """Zettai Ryouiki"""
+        """r/ZettaiRyouiki
+
+        legwear and skirts"""
         res = tools.fetch( 'ZettaiRyouiki')
         await self.client.say(res.url)
 
     @commands.command()
     async def thh(self):
-        """Girls in tigh-highs soing... things"""
+        """r/tighhighhentai
+
+        Girls in tigh-highs soing... things"""
         res = tools.fetch( 'thighhighhentai')
         await self.client.say(res.url)
 
     @commands.command()
     async def flat(self):
-        """Flat is justice !"""
+        """r/chiisaihentai
+
+        Flat is justice !"""
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
         await self.client.say(res)
 
     @commands.command()
     async def legwear(self):
-        """Socks, thigh-highs, tights and other things that hug legs!"""
+        """r/animelegwear
+
+        Socks, thigh-highs, tights and other things that hug legs!"""
         res = tools.fetch( 'animelegwear')
         await self.client.say(res.url)
 
     @commands.command()
     async def pantsu(self):
-        """Slightly NSFW anime girls"""
+        """r/pantsu
+
+        Slightly NSFW anime girls"""
         res = tools.fetch( 'pantsu')
         await self.client.say(res.url)
 
     @commands.command()
     async def sukebei(self):
-        """More NSFW anime girls"""
+        """r/Sukebei
+
+        More NSFW anime girls"""
         res = tools.fetch( 'Sukebei')
         await self.client.say(res.url)
 
     @commands.command()
     async def ecchi(self):
-        """NSFW anime girls"""
+        """r/ecchi
+
+        NSFW anime girls"""
         res = tools.fetch( 'ecchi')
         await self.client.say(res.url)
 
     @commands.command()
+    async def doujinshi(self):
+        """r/doujinshi
+
+        ero-mangas"""
+        res = tools.fetch( 'doujinshi')
+        await self.client.say(res.url)
+
+    @commands.command()
     async def hentai(self):
-        """Really ??"""
+        """r/hentai
+
+        Really ??"""
         res = tools.fetch( 'hentai')
+        await self.client.say(res.url)
+
+    @commands.command()
+    async def yuri(self):
+        """r/yuri
+
+        For girls liking girls"""
+        res = tools.fetch('yuri')
         await self.client.say(res.url)
 
     @commands.command(aliases=['neko'])
     async def nekogirl(self):
-        """Because we love nekos"""
+        """r/nekogirls
+
+        Because we love nekos"""
         res = tools.fetch( 'nekogirls')
         await self.client.say(res.url)
 
     @commands.command()
     async def nekomimi(self):
-        """Because we never have enough nekos !"""
+        """r/Nekomimi
+
+        Because we never have enough nekos !"""
         res = tools.fetch( 'Nekomimi')
         await self.client.say(res.url)
 
-    @commands.command()
+    @commands.command(aliases=["twintails"])
     async def twintail(self):
-        """Two is better than one !"""
+        """r/twintails
+
+        Two is better than one !"""
         res = tools.fetch( 'twintails')
         await self.client.say(res.url)
 
