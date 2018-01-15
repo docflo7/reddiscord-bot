@@ -70,7 +70,7 @@ class NSFW():
 
         (ero-)mangas drawings"""
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'doujinshi')
-        await self.client.say(res.url)
+        await self.client.say(res)
 
     @commands.command()
     async def hentai(self):
