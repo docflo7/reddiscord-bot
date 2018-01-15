@@ -68,8 +68,8 @@ class NSFW():
     async def doujinshi(self):
         """r/doujinshi
 
-        ero-mangas"""
-        res = tools.fetch( 'doujinshi')
+        (ero-)mangas drawings"""
+        res = await dbmanagement.getRandomPostFromDB(settings.db, 'doujinshi')
         await self.client.say(res.url)
 
     @commands.command()

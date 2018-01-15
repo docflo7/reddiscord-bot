@@ -18,15 +18,19 @@ def init():
     reddit = praw.Reddit(client_id=auth.reddit_client, client_secret=auth.reddit_secret, user_agent='discord_bot')
 
     # this specifies what extensions to load when the bot starts up
-    _startup_extensions = ["nsfw", "sfw", "admin", "utilities", "osu"]
-    startup_extensions = ["admin", "osu"]
+    startup_extensions = ["nsfw", "sfw", "admin", "utilities", "osu"]
+    dev_startup_extensions = ["admin", "osu"]
+
     # image extensions to filter
     img_extensions = [".jpg", ".png", ".jpeg", ".bpm", ".gif"]
+
     # this specifies what subreddits need to be cached
     # some subreddits can't be browsed by the praw random function and need this
-    cached_subreddits = ["awwnime", "chiisaihentai"]
+    cached_subreddits = ["awwnime", "chiisaihentai", "doujinshi"]
+
     # get the db connection
     db = dbmanagement.connectDB(client, reddit, cached_subreddits)
+
     # seed the PRNG
     random.seed()
 

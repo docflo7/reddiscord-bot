@@ -65,6 +65,7 @@ async def addReminder(conn, id, delay, text):
     conn.commit()
     cursor.close()
 
+
 # We build a database containing images from the subreddits that doesn't support the default random function
 # See tools > fetch for more details
 def fillPostsInDB(conn, reddit, subname):
