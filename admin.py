@@ -1,5 +1,6 @@
 import settings
 from discord.ext import commands
+import urllib
 import tools
 
 class Admin():

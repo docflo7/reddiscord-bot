@@ -1,6 +1,7 @@
 import settings
 import random
 
+
 def init():
     global reddit
     global img_extensions
