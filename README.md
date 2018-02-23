@@ -21,7 +21,7 @@ For now, the settings are limited.
 You can chose which extensions from the bot you would like to load on startup (These can still be loaded/unloaded afterward). To do this, edit `startup_extensions` from `settings.py`
 
 ## Extensions & Commands
-The commands are split in 3 extensions.  
+The commands are split in differents extensions.  
 You can use the `help` command to get more infos about each command
 
 ### Admin  
