@@ -10,13 +10,25 @@ def init():
 
 
 # This is the function browsing a given subreddit
-def fetch(sub):
+def fetch(sub, bypass=False):
     subr = reddit.subreddit(sub)
+    lastChannel = settings.lastChannel
+    i = 0
     while True:
         subm = subr.random()
         if check_img_link(subm.url):
+            i += 1
             #print(subm.url)
-            return subm
+            if bypass:
+                return subm
+            if (lastChannel != "nsfw" and subm.over_18) or (lastChannel == "nsfw" and not subm.over_18):
+                if i >= 5:
+                    # TODO : change this because it's ugly
+                    subm.url = ":frowning:"
+                    return subm
+                pass
+            else:
+                return subm
 
 
 # This is another version of the function browsing a given subreddit

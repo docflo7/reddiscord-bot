@@ -13,6 +13,7 @@ def init():
     global db
     global reactionsStatus
     global appinfo
+    global lastChannel
 
     client = commands.Bot(description="reddit image picker bot - by docflo7", command_prefix=auth.discord_command_prefix, pm_help=False)
     reddit = praw.Reddit(client_id=auth.reddit_client, client_secret=auth.reddit_secret, user_agent='discord_bot')
@@ -37,3 +38,4 @@ def init():
     # global variables across modules
     reactionsStatus = True
     appinfo = None
+    lastChannel = ""

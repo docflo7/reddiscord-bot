@@ -48,6 +48,16 @@ class SFW():
         res = tools.fetch('pouts')
         await self.client.say(res.url)
 
+    # unactive due to reddit random bug (cf issue 885 of PRAW)
+    # @commands.command()
+    async def kanmusu(self):
+        """r/KanMusu
+
+        Cute shipgirls
+        (Shigure best girl btw)"""
+        res = tools.fetch('KanMusu')
+        await self.client.say(res.url)
+
     @commands.command(aliases=["kawaii"])
     async def aww(self):
         """r/awwnime

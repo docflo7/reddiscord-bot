@@ -16,6 +16,7 @@ tools.init()
 client = settings.client
 startup_extensions = settings.startup_extensions
 appinfo = settings.appinfo
+lastChannel = settings.lastChannel
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
 # Do not mess with it because the bot can break, if you wish to do so, please consult me or someone trusted.
@@ -63,6 +64,7 @@ async def on_message(message):
                     # If you bot doesn't have the "READ MESSAGE HISTORY" permission, adding reactions is impossible
                     print("Can't add reaction. Permission denied.")
                 await kizuna(message)
+        settings.lastChannel = message.channel.name
         await client.process_commands(message)
 
 

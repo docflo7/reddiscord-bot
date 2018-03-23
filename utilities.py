@@ -28,6 +28,20 @@ class Utilities():
         else:
             await self.client.say(res.url)
 
+    @commands.command()
+    async def find(self, sub, *param):
+        """Get a random post from a subreddit
+
+        Will return a random post from a subreddit
+        Will display NSFW results in #nsfw and SFW results in other channels
+        But you can bypass this by adding "-f" at the end of your query"""
+        print(param)
+        if param[0] == "-f":
+            res = tools.fetch(sub, True)
+        else:
+            res = tools.fetch(sub)
+        await self.client.say(res.url)
+
 
 def setup(client):
     client.add_cog(Utilities(client))

@@ -20,7 +20,7 @@ class NSFW():
     async def thh(self):
         """r/tighhighhentai
 
-        Girls in tigh-highs soing... things"""
+        Girls in tigh-highs doing... things"""
         res = tools.fetch( 'thighhighhentai')
         await self.client.say(res.url)
 
@@ -31,6 +31,14 @@ class NSFW():
         Flat is justice !"""
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
         await self.client.say(res)
+
+    @commands.command()
+    async def oppai(self):
+        """r/dekaihentai
+
+        For the titty lovers"""
+        res = tools.fetch('dekaihentai')
+        await self.client.say(res.url)
 
     @commands.command()
     async def legwear(self):
@@ -110,6 +118,16 @@ class NSFW():
 
         Two is better than one !"""
         res = tools.fetch( 'twintails')
+        await self.client.say(res.url)
+
+    # unactive due to reddit random bug (cf issue 885 of PRAW)
+    # @commands.command(aliases=["kanmusunight"])
+    async def kanmusunights(self):
+        """r/KanMusuNights
+
+        Shipgirls having good time
+        (Shigure best girl btw)"""
+        res = tools.fetch('KanMusuNights')
         await self.client.say(res.url)
 
 
