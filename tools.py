@@ -22,9 +22,9 @@ def fetch(sub, bypass=False):
             if bypass:
                 return subm
             if (lastChannel != "nsfw" and subm.over_18) or (lastChannel == "nsfw" and not subm.over_18):
-                if i >= 5:
+                if i >= 20:
                     # TODO : change this because it's ugly
-                    subm.url = ":frowning:"
+                    subm.url = "Sorry, but that didn't work :frowning:"
                     return subm
                 pass
             else:
