@@ -36,7 +36,7 @@ class Utilities():
         Will display NSFW results in #nsfw and SFW results in other channels
         But you can bypass this by adding "-f" at the end of your query"""
         print(param)
-        if param[0] == "-f":
+        if len(param) > 0 and param[0] == "-f":
             res = tools.fetch(sub, True)
         else:
             res = tools.fetch(sub)
