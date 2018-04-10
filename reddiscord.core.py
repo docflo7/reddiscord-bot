@@ -61,7 +61,7 @@ async def on_message(message):
                 try:
                     await client.add_reaction(message, "❤")
                 except:
-                    # If you bot doesn't have the "READ MESSAGE HISTORY" permission, adding reactions is impossible
+                    # If your bot doesn't have the "READ MESSAGE HISTORY" permission, adding reactions is impossible
                     print("Can't add reaction. Permission denied.")
                 await kizuna(message)
         settings.lastChannel = message.channel.name
@@ -194,6 +194,11 @@ async def sarcasm(ctx):
 async def spoiler(ctx):
     """React to spoilers"""
     await client.send_file(ctx.message.channel, './img/spoiler.png')
+    
+@client.command(pass_context=True)
+async def smile(ctx):
+    """React to spoilers"""
+    await client.send_file(ctx.message.channel, './img/zuck/1.png')
 
 
 async def kizuna(message):

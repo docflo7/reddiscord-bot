@@ -22,7 +22,7 @@ def fetch(sub, bypass=False):
             if bypass:
                 return subm
             if (lastChannel != "nsfw" and subm.over_18) or (lastChannel == "nsfw" and not subm.over_18):
-                if i >= 20:
+                if i >= 50:
                     # TODO : change this because it's ugly
                     subm.url = "Sorry, but that didn't work :frowning:"
                     return subm
@@ -52,7 +52,7 @@ async def searchReddit(sub, query, safe):
     limit = 0
     if len(posts) == 0:
         return None
-    while limit <= 50:
+    while limit <= 200:
         random_post_number = random.randint(0, len(posts) - 1)
         random_post = posts[random_post_number]
         if check_img_link(random_post.url):
