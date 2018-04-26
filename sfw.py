@@ -65,6 +65,23 @@ class SFW():
         Cute anime girls !"""
         res = await dbmanagement.getRandomPostFromDB(settings.db, 'awwnime')
         await self.client.say(res)
+    
+    @commands.command(aliases=["short"])
+    async def shorthair(self):
+        """r/shorthairedwaifus
+
+        Anime girls lacking hair length"""
+        res = tools.fetch('shorthairedwaifus')
+        await self.client.say(res.url)
+    
+    
+    @commands.command(aliases=["long"])
+    async def longhhair(self):
+        """r/longhairedwaifus
+
+        Adorable girls with flowing long hair"""
+        res = tools.fetch('longhairedwaifus')
+        await self.client.say(res.url)
 
 
 def setup(client):
