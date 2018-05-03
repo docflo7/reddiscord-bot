@@ -4,25 +4,9 @@ import dbmanagement
 import settings
 
 
-class SFW():
+class SFW_ONLY():
     def __init__(self, client):
         self.client = client
-
-    @commands.command()
-    async def fang(self):
-        """r/cutelittlefangs
-
-        For girls with cute little fangs"""
-        res = tools.fetch('cutelittlefangs')
-        await self.client.say(res.url)
-
-    @commands.command()
-    async def imouto(self):
-        """r/imouto
-
-        I guess there are some siscons here"""
-        res = tools.fetch('imouto')
-        await self.client.say(res.url)
 
     @commands.command()
     async def tsundere(self):
@@ -73,8 +57,7 @@ class SFW():
         Anime girls lacking hair length"""
         res = tools.fetch('shorthairedwaifus')
         await self.client.say(res.url)
-    
-    
+
     @commands.command(aliases=["long"])
     async def longhhair(self):
         """r/longhairedwaifus
@@ -85,4 +68,4 @@ class SFW():
 
 
 def setup(client):
-    client.add_cog(SFW(client))
+    client.add_cog(SFW_ONLY(client))

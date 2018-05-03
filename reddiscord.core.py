@@ -112,7 +112,8 @@ async def _reload(ctx, *, module : str):
         if isinstance(e, ImportError):
             await client.say("I can't do that. Does this module exist ?")
         else:
-            await client.say("I can't do that. It seems there's an error in this module and I can't load it.\nIt is probably in an unloaded state now.")
+            await client.say("I can't do that. It seems there's an error in this module and I can't load it.\n"
+                             "It is probably in an unloaded state now.")
         print('{}: {}'.format(type(e).__name__, e))
     else:
         await client.say('Module reloaded')

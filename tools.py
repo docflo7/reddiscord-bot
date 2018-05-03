@@ -24,7 +24,9 @@ def fetch(sub, bypass=False):
             if (lastChannel != "nsfw" and subm.over_18) or (lastChannel == "nsfw" and not subm.over_18):
                 if i >= 50:
                     # TODO : change this because it's ugly
-                    subm.url = "Sorry, but that didn't work :frowning:"
+                    subm.url = "Sorry, but that didn't work :frowning: \n" \
+                               "BECAUSE YOU'RE TYING TO GET NSFW PICTURES IN A SFW CHANNEL YOU DUMBASS " \
+                               "(or the other way around)"
                     return subm
                 pass
             else:

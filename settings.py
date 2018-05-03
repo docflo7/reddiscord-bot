@@ -19,7 +19,7 @@ def init():
     reddit = praw.Reddit(client_id=auth.reddit_client, client_secret=auth.reddit_secret, user_agent='discord_bot')
 
     # this specifies what extensions to load when the bot starts up
-    startup_extensions = ["nsfw", "sfw", "admin", "utilities", "osu"]
+    startup_extensions = ["nsfw", "sfw", "midsfw", "admin", "utilities", "osu"]
     dev_startup_extensions = ["admin", "osu"]
 
     # image extensions to filter

@@ -8,32 +8,52 @@ import tools
 import auth
 
 
-class Osu():
+class OSU():
     def __init__(self, client):
         self.client = client
 
-    async def getBeatmap(self, ctx, url):
+    @commands.command(pass_context=True)
+    @commands.check(tools.is_owner)
+    async def mapinfo(self, ctx, url, *mode):
+        """Get some beatmap infos
+
+        <mapinfo <url> <mode>
+        Display a message with all data about a beatmap
+        Mode is optional and will default to standard. Use the mode ID if set (eg: 0 for standard)"""
+        validModes = ["0", "1", "2", "3"]
+        if len(mode) > 0 and validModes.__contains__(mode[0]):
+            _mode = mode[0]
+        else:
+            _mode = "0"
+
+        obj = await self.getBeatmap(ctx, url, _mode)
+        message = str(obj)
+        await self.client.say(message)
+
+    async def getBeatmap(self, ctx, url, mode):
         """This function will get infos on a beatmap from its url, using the api.
         The informations are returned as an oject containing the beatmap's properties"""
-        osu_domain = "osu.ppy.sh/"
-        start = url.find(osu_domain) + len(osu_domain)
-        type = url[start:start + 2]
-        bmid = None
-        if type == "s/":
-            bmid = url[start + 2:]
-        elif type == "b/":
-            end = url.find("&m")
-            if end == -1:
-                bmid = url[start + 2:]
-            else:
-                bmid = url[start + 2:end]
-        elif type == "p/":
-            start = url.find("?b")
-            end = url.find("&m")
-            bmid = url[start + 3:end]
+        osu_domain = "osu.ppy.sh"
+        if url.find(osu_domain) < 0:
+            return None
+        if url[0:4] != "http":
+            return None
+        tokens = url.split("/")
+        type = tokens[3]
 
-        print(bmid)
-        req = web.Request("https://osu.ppy.sh/api/get_beatmaps?m=2&a=1&k=" + auth.osu_api_token + "&b=" + bmid)
+        bmid = None
+        bmsid = None
+        if type == "s":
+            bmsid = tokens[4]
+        elif type == "b":
+            bmid = tokens[4].split("&")[0]
+        elif type == "beatmapsets":
+            bmid = tokens[5]
+
+        if bmid is not None:
+            req = web.Request("https://osu.ppy.sh/api/get_beatmaps?m=" + str(mode) + "&a=1&k=" + auth.osu_api_token + "&b=" + bmid)
+        else:
+            req = web.Request("https://osu.ppy.sh/api/get_beatmaps?m=" + str(mode) + "&a=1&k=" + auth.osu_api_token + "&s=" + bmsid)
         res = web.urlopen(req).read()[1:-1]
         try:
             asobject = json.loads(res, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
@@ -86,9 +106,9 @@ class Osu():
 
         ctbpp <url> <acc> <combo> <misses>
         If you don't specify any play infos, standard values will be given.
-        You can either give full specifications (acc, combo, misses) or acc only.
+        You can either give full specifications (acc, combo, misses) or acc only and an FC will be assumed.
         """
-        map = await self.getBeatmap(self, url)
+        map = await self.getBeatmap(self, url, 2)
         if map is None:
             await self.client.say("Something went wrong.")
             return
@@ -139,4 +159,4 @@ class Osu():
 
 
 def setup(client):
-    client.add_cog(Osu(client))
+    client.add_cog(OSU(client))

@@ -4,24 +4,16 @@ import dbmanagement
 import settings
 
 
-class NSFW():
+class NSFW_ONLY():
     def __init__(self, client):
         self.client = client
-
-    @commands.command()
-    async def zr(self):
-        """r/ZettaiRyouiki
-
-        legwear and skirts"""
-        res = tools.fetch( 'ZettaiRyouiki')
-        await self.client.say(res.url)
 
     @commands.command()
     async def thh(self):
         """r/tighhighhentai
 
         Girls in tigh-highs doing... things"""
-        res = tools.fetch( 'thighhighhentai')
+        res = tools.fetch('thighhighhentai')
         await self.client.say(res.url)
 
     @commands.command()
@@ -41,19 +33,11 @@ class NSFW():
         await self.client.say(res.url)
 
     @commands.command()
-    async def legwear(self):
-        """r/animelegwear
-
-        Socks, thigh-highs, tights and other things that hug legs!"""
-        res = tools.fetch( 'animelegwear')
-        await self.client.say(res.url)
-
-    @commands.command()
     async def pantsu(self):
         """r/pantsu
 
         Slightly NSFW anime girls"""
-        res = tools.fetch( 'pantsu')
+        res = tools.fetch('pantsu')
         await self.client.say(res.url)
 
     @commands.command()
@@ -61,7 +45,7 @@ class NSFW():
         """r/Sukebei
 
         More NSFW anime girls"""
-        res = tools.fetch( 'Sukebei')
+        res = tools.fetch('Sukebei')
         await self.client.say(res.url)
 
     @commands.command()
@@ -69,7 +53,7 @@ class NSFW():
         """r/ecchi
 
         NSFW anime girls"""
-        res = tools.fetch( 'ecchi')
+        res = tools.fetch('ecchi')
         await self.client.say(res.url)
 
     @commands.command()
@@ -85,7 +69,7 @@ class NSFW():
         """r/hentai
 
         Really ??"""
-        res = tools.fetch( 'hentai')
+        res = tools.fetch('hentai')
         await self.client.say(res.url)
 
     @commands.command()
@@ -101,7 +85,7 @@ class NSFW():
         """r/nekogirls
 
         Because we love nekos"""
-        res = tools.fetch( 'nekogirls')
+        res = tools.fetch('nekogirls')
         await self.client.say(res.url)
 
     @commands.command()
@@ -109,15 +93,7 @@ class NSFW():
         """r/Nekomimi
 
         Because we never have enough nekos !"""
-        res = tools.fetch( 'Nekomimi')
-        await self.client.say(res.url)
-
-    @commands.command(aliases=["twintails"])
-    async def twintail(self):
-        """r/twintails
-
-        Two is better than one !"""
-        res = tools.fetch( 'twintails')
+        res = tools.fetch('Nekomimi')
         await self.client.say(res.url)
 
     # unactive due to reddit random bug (cf issue 885 of PRAW)
@@ -132,4 +108,4 @@ class NSFW():
 
 
 def setup(client):
-    client.add_cog(NSFW(client))
+    client.add_cog(NSFW_ONLY(client))
