@@ -13,7 +13,7 @@ class OSU():
         self.client = client
 
     @commands.command(pass_context=True)
-    @commands.check(tools.is_owner)
+    # @commands.check(tools.is_owner)
     async def mapinfo(self, ctx, url, *mode):
         """Get some beatmap infos
 
@@ -21,18 +21,79 @@ class OSU():
         Display a message with all data about a beatmap
         Mode is optional and will default to standard. Use the mode ID if set (eg: 0 for standard)"""
         validModes = ["0", "1", "2", "3"]
-        if len(mode) > 0 and validModes.__contains__(mode[0]):
+        if len(mode) > 0 and mode[0] in validModes:
             _mode = mode[0]
         else:
             _mode = "0"
 
-        obj = await self.getBeatmap(ctx, url, _mode)
+        obj = await self.getBeatmap(url, _mode)
         message = str(obj)
         await self.client.say(message)
 
-    async def getBeatmap(self, ctx, url, mode):
+    @commands.command(pass_context=True)
+    # @commands.check(tools.is_owner)
+    async def osuplayerinfo(self, ctx, user, *mode):
+        """Get some player infos
+
+        <mapinfo <user>
+        The user field can be either the id or the name
+        Display a message with all data about an user
+        Mode is optional and will default to standard. Use the mode ID if set (eg: 0 for standard)"""
+        validModes = ["0", "1", "2", "3"]
+        if len(mode) > 0 and mode[0] in validModes:
+            _mode = mode[0]
+        else:
+            _mode = "0"
+        
+        obj = await self.getUser(user, _mode)
+        message = str(obj)
+        await self.client.say(message)
+
+    @commands.command(pass_context=True)
+    # @commands.check(tools.is_owner)
+    async def osurecent(self, ctx, user, *mode):
+        """Get some player infos
+
+        <mapinfo <user>
+        The user field can be either the id or the name
+        Display a message with all data about an user
+        Mode is optional and will default to standard. Use the mode ID if set (eg: 0 for standard)"""
+        validModes = ["0", "1", "2", "3"]
+        if len(mode) > 0 and mode[0] in validModes:
+            _mode = mode[0]
+        else:
+            _mode = "0"
+
+        obj = await self.getRecent(user, _mode)
+        message = str(obj[0])
+        await self.client.say(message)
+
+    async def getRecent(self, user, mode):
+        """This function will get infos an user from its name or id.
+        The information are returned as an object containing the player's properties"""
+        req = web.Request("https://osu.ppy.sh/api/get_user_recent?m=" + str(mode) + "&k=" + auth.osu_api_token + "&u=" + user)
+        res = web.urlopen(req)
+        try:
+            print(res)
+            asobject = json.load(res, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+            return asobject
+        except:
+            return None
+
+    async def getUser(self, user, mode):
+        """This function will get infos an user from its name or id.
+        The information are returned as an object containing the player's properties"""
+        req = web.Request("https://osu.ppy.sh/api/get_user?m=" + str(mode) + "&k=" + auth.osu_api_token + "&u=" + user)
+        res = web.urlopen(req)
+        try:
+            asobject = json.load(res, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+            return asobject
+        except:
+            return None
+
+    async def getBeatmap(self, url, mode):
         """This function will get infos on a beatmap from its url, using the api.
-        The informations are returned as an oject containing the beatmap's properties"""
+        The information are returned as an object containing the beatmap's properties"""
         osu_domain = "osu.ppy.sh"
         if url.find(osu_domain) < 0:
             return None
@@ -54,10 +115,10 @@ class OSU():
             req = web.Request("https://osu.ppy.sh/api/get_beatmaps?m=" + str(mode) + "&a=1&k=" + auth.osu_api_token + "&b=" + bmid)
         else:
             req = web.Request("https://osu.ppy.sh/api/get_beatmaps?m=" + str(mode) + "&a=1&k=" + auth.osu_api_token + "&s=" + bmsid)
-        res = web.urlopen(req).read()[1:-1]
+        res = web.urlopen(req)
         try:
-            asobject = json.loads(res, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-            return asobject
+            asobject = json.load(res, object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+            return asobject[0]
         except:
             return None
 
@@ -108,7 +169,8 @@ class OSU():
         If you don't specify any play infos, standard values will be given.
         You can either give full specifications (acc, combo, misses) or acc only and an FC will be assumed.
         """
-        map = await self.getBeatmap(self, url, 2)
+        map = await self.getBeatmap(url, 2)
+        print(map)
         if map is None:
             await self.client.say("Something went wrong.")
             return

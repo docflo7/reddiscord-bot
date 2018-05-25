@@ -6,6 +6,7 @@ import settings
 import auth
 import dbmanagement
 import tools
+import time
 
 #read values from the settings and auth file
 auth.init()
@@ -17,6 +18,9 @@ client = settings.client
 startup_extensions = settings.startup_extensions
 appinfo = settings.appinfo
 lastChannel = settings.lastChannel
+last_com_time = 0
+ver_number = 1.6  # built with commit #32
+
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
 # Do not mess with it because the bot can break, if you wish to do so, please consult me or someone trusted.
@@ -27,10 +31,11 @@ async def on_ready():
     print('Connected to '+str(len(client.servers))+' servers | Connected to '+str(len(set(client.get_all_members())))+' users')
     print('--------')
     print('Current Discord.py Version: {} | Current Python Version: {}'.format(discord.__version__, platform.python_version()))
+    print(f'Current Bot Version: {str(ver_number)}')
     print('--------')
     print('Connected to reddit as a read-only instance')
     print('--------')
-    await client.change_presence(game=discord.Game(name='reddit'))
+    await client.change_presence(game=discord.Game(name='with cuteness ❤'))
     await dbmanagement.checkReminder(settings.db, client)
     global appinfo
     appinfo = await client.application_info()
@@ -41,10 +46,25 @@ async def on_ready():
 def globally_block_dms(ctx):
     return ctx.message.server is not None
 
+async def mention_help(message):
+    response = f"Hi {message.author.mention} ! \n" \
+               f"I'm {message.server.me.nick if message.server.me.nick is not None else message.server.me.name}. \n " \
+               f"You can learn more about why i'm here for and how to use my awesome features with the " \
+               f"{auth.discord_command_prefix}help command. \n" \
+               f"If you need more help, you can contact {settings.appinfo.owner} or {message.server.owner}."
+    await client.send_message(message.channel, content=response)
+
 
 @client.event
 async def on_message(message):
+    global last_com_time
     if message.author.id != client.user.id:
+        if time.clock() - last_com_time > settings.cooldown:
+            last_com_time = time.clock()
+        else:
+            if message.content.startswith(auth.discord_command_prefix):
+                await client.send_message(message.channel, "NOPE")
+            return
         # print(message)
         if settings.reactionsStatus:
             if message.content.lower() in ['hello', 'hi', 'hallo']:
@@ -64,6 +84,11 @@ async def on_message(message):
                     # If your bot doesn't have the "READ MESSAGE HISTORY" permission, adding reactions is impossible
                     print("Can't add reaction. Permission denied.")
                 await kizuna(message)
+        if message.server.me in message.mentions:
+            if message.content == message.server.me.mention:
+                await mention_help(message)
+            else:
+                await client.send_message(message.channel, "Eeeehhh ?")
         settings.lastChannel = message.channel.name
         await client.process_commands(message)
 

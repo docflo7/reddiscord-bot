@@ -8,6 +8,7 @@ auth_heroku.py
 auth_local.py
 test.py
 reddiscord.core.local.py
+reddiscord.core.talk.py
 
 # Pycharm files
 .idea/*

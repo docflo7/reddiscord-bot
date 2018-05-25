@@ -75,10 +75,27 @@ class Admin():
             await self.client.say(com.name + " is now " + status)
             return
 
-    @commands.command(name='whoami', hidden=True, pass_context=True)
+    @commands.command(name='who', hidden=True)
     @commands.check(tools.is_owner)
     async def _me(self):
         await self.client.say("I'm " + str(self.client.user))
+
+    @commands.command(alias=['setcooldown'])
+    @commands.check(tools.is_owner)
+    async def cooldown(self, *value):
+        """Set the general command cooldown to <value> seconds"""
+        if len(value) > 0:
+            try:
+                ivalue = int(value[0])
+                assert ivalue >= 0
+            except Exception as e:
+                print(e)
+                await self.client.say("That makes no sense, ba-ka !")
+                return
+            settings.cooldown = ivalue
+            await self.client.say(f"Cooldown set to {ivalue} seconds")
+        else:
+            await self.client.say(f"Current cooldown is {settings.cooldown} seconds")
 
 
 def setup(client):
