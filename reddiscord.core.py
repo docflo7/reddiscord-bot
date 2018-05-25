@@ -59,8 +59,8 @@ async def mention_help(message):
 async def on_message(message):
     global last_com_time
     if message.author.id != client.user.id:
-        if time.clock() - last_com_time > settings.cooldown:
-            last_com_time = time.clock()
+        if time.time() - last_com_time > settings.cooldown:
+            last_com_time = time.time()
         else:
             if message.content.startswith(auth.discord_command_prefix):
                 await client.send_message(message.channel, "NOPE")
