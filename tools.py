@@ -21,16 +21,15 @@ def fetch(sub, bypass=False):
             #print(subm.url)
             if bypass:
                 return subm
-            if (lastChannel != "nsfw" and subm.over_18) or (lastChannel == "nsfw" and not subm.over_18):
+            if (lastChannel not in settings.NSFW_chan and subm.over_18) or (lastChannel in settings.NSFW_chan and not subm.over_18):
                 if i >= 50:
                     # TODO : change this because it's ugly
-                    subm.url = "Sorry, but that didn't work :frowning: \n" \
-                               "BECAUSE YOU'RE TYING TO GET NSFW PICTURES IN A SFW CHANNEL YOU DUMBASS " \
-                               "(or the other way around)"
+                    subm.url = "I tried my best, but there's a conflict between the channel and the type of content you're looking for :frowning: \n" \
+                               "You may try again, but I already tried 50 times"
                     return subm
                 pass
             else:
-                return subm
+                return subm  
 
 
 # This is another version of the function browsing a given subreddit

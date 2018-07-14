@@ -21,8 +21,11 @@ class NSFW_ONLY():
         """r/chiisaihentai
 
         Flat is justice !"""
-        res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
-        await self.client.say(res)
+        if(settings.lastchannel in settings.NSFW_chan):
+          res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
+          await self.client.say(res)
+        else:
+          await self.client.say("W-W-What ? I can't post things like that in a safe channel, it would be embarrassing !")
 
     @commands.command()
     async def oppai(self):
@@ -61,8 +64,11 @@ class NSFW_ONLY():
         """r/doujinshi
 
         (ero-)mangas drawings"""
-        res = await dbmanagement.getRandomPostFromDB(settings.db, 'doujinshi')
-        await self.client.say(res)
+        if(settings.lastchannel in settings.NSFW_chan):
+          res = await dbmanagement.getRandomPostFromDB(settings.db, 'doujinshi')
+          await self.client.say(res)
+        else:
+          await self.client.say("W-W-What ? I can't post things like that in a safe channel, it would be embarrassing !")
 
     @commands.command()
     async def hentai(self):

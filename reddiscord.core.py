@@ -220,7 +220,8 @@ async def sarcasm(ctx):
 async def spoiler(ctx):
     """React to spoilers"""
     await client.send_file(ctx.message.channel, './img/spoiler.png')
-    
+
+
 @client.command(pass_context=True)
 async def smile(ctx):
     """React to spoilers"""
@@ -230,6 +231,10 @@ async def smile(ctx):
 async def kizuna(message):
     """React to kizuna name"""
     msg = await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
+
+async def shrug(message):
+    """¯\_(ツ)_/¯"""
+    msg = await client.send_file(message.channel, './img/Rshrug.png')
 
 
 if __name__ == "__main__":
