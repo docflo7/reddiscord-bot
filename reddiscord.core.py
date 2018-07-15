@@ -89,7 +89,7 @@ async def on_message(message):
                 await mention_help(message)
             else:
                 await client.send_message(message.channel, "Eeeehhh ?")
-        settings.lastChannel = message.channel.name
+        settings.lastChannel = message.channel.id
         await client.process_commands(message)
 
 

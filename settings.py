@@ -28,7 +28,7 @@ def init():
 
     # this specifies what subreddits need to be cached
     # some subreddits can't be browsed by the praw random function and need this
-    cached_subreddits = ["awwnime", "chiisaihentai", "doujinshi"]
+    cached_subreddits = ["awwnime", "chiisaihentai"]  #, "doujinshi"]
 
     # get the db connection
     db = dbmanagement.connectDB(client, reddit, cached_subreddits)

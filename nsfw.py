@@ -21,7 +21,7 @@ class NSFW_ONLY():
         """r/chiisaihentai
 
         Flat is justice !"""
-        if(settings.lastChannel in settings.NSFW_chan):
+        if settings.lastChannel in settings.NSFW_chan:
           res = await dbmanagement.getRandomPostFromDB(settings.db, 'chiisaihentai')
           await self.client.say(res)
         else:
@@ -59,12 +59,12 @@ class NSFW_ONLY():
         res = tools.fetch('ecchi')
         await self.client.say(res.url)
 
-    @commands.command()
+    # @commands.command()
     async def doujinshi(self):
         """r/doujinshi
 
         (ero-)mangas drawings"""
-        if(settings.lastChannel in settings.NSFW_chan):
+        if settings.lastChannel in settings.NSFW_chan:
           res = await dbmanagement.getRandomPostFromDB(settings.db, 'doujinshi')
           await self.client.say(res)
         else:
