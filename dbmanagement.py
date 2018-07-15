@@ -95,3 +95,34 @@ async def getRandomPostFromDB(conn, subname):
     randompost = rows[rd]
     cursor.close()
     return randompost[2]
+
+async def execQuery(conn, query):
+    cursor = conn.cursor()
+    print(query)
+    type = query.split(" ")[0].lower()
+    print(type)
+    message = ""
+    if type not in ["select", "delete", "insert"]:
+        cursor.close()
+        message = "Wrong query type"
+        return message
+    cursor.execute(query)
+    if type == "select":
+        if cursor.rowcount > 5:
+            message = f"Displaying only first 5 results out of {cursor.rowcount} \n"
+        else:
+            message = str(cursor.rowcount) + " result(s)"
+        rows = cursor.fetchall()
+        i = 1
+        for row in rows:
+            message += str(row) + "\n"
+            i += 1
+            if i > 5:
+                break
+    if type == "delete":
+        message = str(cursor.rowcount) + " lines deleted"
+    if type == "insert":
+        message = str(cursor.rowcount) + " lines inserted"
+    conn.commit()
+    cursor.close()
+    return message

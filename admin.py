@@ -2,6 +2,8 @@ import settings
 from discord.ext import commands
 import urllib
 import tools
+import dbmanagement
+
 
 class Admin():
     def __init__(self, client):
@@ -96,6 +98,12 @@ class Admin():
             await self.client.say(f"Cooldown set to {ivalue} seconds")
         else:
             await self.client.say(f"Current cooldown is {settings.cooldown} seconds")
+
+    @commands.command(name="dbquery")
+    @commands.check(tools.is_owner)
+    async def db_exec(self, *, query):
+        res = await dbmanagement.execQuery(settings.db, query)
+        await self.client.say(res)
 
 
 def setup(client):
