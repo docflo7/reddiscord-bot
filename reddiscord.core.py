@@ -232,6 +232,8 @@ async def kizuna(message):
     """React to kizuna name"""
     msg = await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
 
+
+@client.command(pass_context=True)
 async def shrug(message):
     """¯\_(ツ)_/¯"""
     msg = await client.send_file(message.channel, './img/Rshrug.png')
