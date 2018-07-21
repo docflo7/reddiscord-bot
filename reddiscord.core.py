@@ -210,7 +210,7 @@ async def kawaiidesu(ctx):
     await client.send_file(ctx.message.channel, './img/kawaii.jpg')
 
 
-@client.command(pass_context=True, aliases=["/s, sar"])
+@client.command(pass_context=True, aliases=["/s", "sar"])
 async def sarcasm(ctx):
     """React to sarcasm"""
     await client.send_file(ctx.message.channel, './img/sarcasm.jpg')
@@ -233,10 +233,10 @@ async def kizuna(message):
     msg = await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
 
 
-@client.command(pass_context=True)
-async def shrug(message):
+@client.command(pass_context=True, alias=["rshrug"])
+async def shrug(ctx):
     """¯\_(ツ)_/¯"""
-    msg = await client.send_file(message.channel, './img/Rshrug.png')
+    msg = await client.send_file(ctx.message.channel, './img/Rshrug.png')
 
 
 if __name__ == "__main__":
