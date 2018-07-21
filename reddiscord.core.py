@@ -233,7 +233,7 @@ async def kizuna(message):
     msg = await client.send_file(message.channel, './img/kizuna.png')     # Change the channel to our #kawaii
 
 
-@client.command(pass_context=True, alias=["rshrug"])
+@client.command(pass_context=True, aliases=["rshrug"])
 async def shrug(ctx):
     """¯\_(ツ)_/¯"""
     msg = await client.send_file(ctx.message.channel, './img/Rshrug.png')
