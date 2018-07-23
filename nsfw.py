@@ -102,6 +102,22 @@ class NSFW_ONLY():
         res = tools.fetch('Nekomimi')
         await self.client.say(res.url)
 
+    @commands.command()
+    async def handbra(self):
+        """r/animehandbras
+
+        Lovely girls using the handbra technique"""
+        res = tools.fetch('animehandbras')
+        await self.client.say(res.url)
+
+    @commands.command()
+    async def towel(self):
+        """r/animegirlswithtowels
+
+        Girls wearing towels"""
+        res = tools.fetch('animegirlswithtowels')
+        await self.client.say(res.url)
+
     # unactive due to reddit random bug (cf issue 885 of PRAW)
     # @commands.command(aliases=["kanmusunight"])
     async def kanmusunights(self):

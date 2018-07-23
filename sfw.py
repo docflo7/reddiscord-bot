@@ -32,6 +32,14 @@ class SFW_ONLY():
         res = tools.fetch('pouts')
         await self.client.say(res.url)
 
+    @commands.command()
+    async def smug(self):
+        """r/smugs
+
+        smug faces"""
+        res = tools.fetch('smugs')
+        await self.client.say(res.url)
+
     # unactive due to reddit random bug (cf issue 885 of PRAW)
     # @commands.command()
     async def kanmusu(self):

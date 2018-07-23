@@ -17,6 +17,22 @@ class MIXED_SFW_AND_NSFW():
         await self.client.say(res.url)
 
     @commands.command()
+    async def bigfang(self):
+        """r/massivefangs
+
+        For people appreciating the variety of fangs"""
+        res = tools.fetch('massivefangs')
+        await self.client.say(res.url)
+
+    @commands.command()
+    async def tying(self):
+        """r/tyingherhairup
+
+        Girls tying their hair"""
+        res = tools.fetch('tyingherhairup')
+        await self.client.say(res.url)
+
+    @commands.command()
     async def imouto(self):
         """r/imouto
 
