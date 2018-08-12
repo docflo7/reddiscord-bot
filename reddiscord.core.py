@@ -18,8 +18,8 @@ client = settings.client
 startup_extensions = settings.startup_extensions
 appinfo = settings.appinfo
 lastChannel = settings.lastChannel
-last_com_time = 0
-ver_number = 1.6  # built with commit #32
+last_link = ""
+ver_number = 1.8  # built with commit #42
 
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
@@ -35,16 +35,28 @@ async def on_ready():
     print('--------')
     print('Connected to reddit as a read-only instance')
     print('--------')
+    print('')
+    try:
+        bootlogo = open("bootlogo.txt", 'r')
+        for line in bootlogo:
+            print(line[:-1])
+    except FileNotFoundError:
+        pass
     await client.change_presence(game=discord.Game(name='with cuteness ❤'))
     await dbmanagement.checkReminder(settings.db, client)
     global appinfo
     appinfo = await client.application_info()
     settings.appinfo = appinfo
+    await client.send_message(appinfo.owner, "Tadaima, Master !")
 
 
 @client.check
 def globally_block_dms(ctx):
-    return ctx.message.server is not None
+    if ctx.message.server is not None:
+        return True
+    else:
+        return tools.is_owner(ctx)
+
 
 async def mention_help(message):
     response = f"Hi {message.author.mention} ! \n" \
@@ -57,14 +69,7 @@ async def mention_help(message):
 
 @client.event
 async def on_message(message):
-    global last_com_time
     if message.author.id != client.user.id:
-        if time.time() - last_com_time > settings.cooldown:
-            last_com_time = time.time()
-        else:
-            if message.content.startswith(auth.discord_command_prefix):
-                await client.send_message(message.channel, "NOPE")
-            return
         # print(message)
         if settings.reactionsStatus:
             if message.content.lower() in ['hello', 'hi', 'hallo']:
@@ -224,7 +229,7 @@ async def spoiler(ctx):
 
 @client.command(pass_context=True)
 async def smile(ctx):
-    """React to spoilers"""
+    """Zuck Smile"""
     await client.send_file(ctx.message.channel, './img/zuck/1.png')
 
 
