@@ -19,7 +19,7 @@ startup_extensions = settings.startup_extensions
 appinfo = settings.appinfo
 lastChannel = settings.lastChannel
 last_link = ""
-ver_number = 1.8  # built with commit #42
+ver_number = 1.8.1  # built with commit #44
 
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
@@ -47,7 +47,7 @@ async def on_ready():
     global appinfo
     appinfo = await client.application_info()
     settings.appinfo = appinfo
-    await client.send_message(appinfo.owner, "Tadaima, Master !")
+    # await client.send_message(appinfo.owner, "Tadaima, Master !")
 
 
 @client.check
