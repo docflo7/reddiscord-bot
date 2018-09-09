@@ -19,7 +19,7 @@ startup_extensions = settings.startup_extensions
 appinfo = settings.appinfo
 lastChannel = settings.lastChannel
 last_link = ""
-ver_number = 1.8.1  # built with commit #44
+ver_number = "1.8.2"  # built with commit #45
 
 
 # This is what happens everytime the bot launches. In this case, it prints information like server count, user count the bot is connected to, and the bot id in the console.
@@ -243,6 +243,16 @@ async def shrug(ctx):
     """¯\_(ツ)_/¯"""
     msg = await client.send_file(ctx.message.channel, './img/Rshrug.png')
 
+    
+@client.command(pass_context=True, name="version")    
+async def bot_version(ctx):
+    """Display the bot version"""
+    message = discord.Embed(title="Reddit bot",
+                            colour=ctx.message.server.me.colour,
+                            description="Currently using v" + version)
+    message.set_thumbnail(url=ctx.message.server.me.avatar_url)
+    message.set_footer(text="Shigure best girl")
+    return message
 
 if __name__ == "__main__":
     for extension in startup_extensions:
