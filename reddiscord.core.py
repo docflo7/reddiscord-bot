@@ -244,7 +244,7 @@ async def shrug(ctx):
     msg = await client.send_file(ctx.message.channel, './img/Rshrug.png')
 
     
-@client.command(pass_context=True, name="version")    
+@client.command(pass_context=True, name='version')    
 async def bot_version(ctx):
     """Display the bot version"""
     message = discord.Embed(title="Reddit bot",
@@ -252,7 +252,7 @@ async def bot_version(ctx):
                             description="Currently using v" + version)
     message.set_thumbnail(url=ctx.message.server.me.avatar_url)
     message.set_footer(text="Shigure best girl")
-    return message
+    await client.send_message(ctx.message.channel, content=None, embed=message)
 
 if __name__ == "__main__":
     for extension in startup_extensions:
